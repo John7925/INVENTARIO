@@ -1,215 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Consulta de Inventario</title>
-
-  <!-- Librería para escaneo de códigos QR -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
-
-  <style>
-    /* Estilo general del cuerpo de la página */
-    body {
-      font-family: Arial, sans-serif;       /* Fuente clara y legible */
-      text-align: center;                   /* Centra el contenido */
-      padding: 20px;
-      background-color: #ffffff;            /* Fondo blanco */
-      color: #333333;                       /* Texto gris oscuro */
-    }
-
-    /* Encabezado con logo y título institucional */
-    header {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    header img {
-      width: 138px;                         /* Tamaño del logo */
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      color: #006341;                       /* Verde institucional */
-      margin-top: 0;
-    }
-
-    /* Línea divisoria debajo del encabezado */
-    hr {
-      border: 1px solid #006341;
-      width: 80%;
-      margin: 20px auto;
-    }
-
-    /* Botones grandes para uso táctil en móviles */
-    button {
-      padding: 16px 32px;
-      font-size: 20px;
-      margin: 12px;
-      background-color: #006341;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 80%;
-      max-width: 400px;
-    }
-
-    button:hover {
-      background-color: #004d33;            /* Efecto al pasar el cursor */
-    }
-
-    /* Área del lector QR (se muestra al escanear) */
-    #reader {
-      margin: auto;
-      width: 100%;
-      max-width: 600px;
-      height: 400px;
-      display: none;
-      border: 2px solid #006341;
-      border-radius: 8px;
-    }
-
-    /* Recuadro independiente para mostrar el folio escaneado */
-    #folioBox {
-      margin-top: 20px;
-      padding: 16px;
-      background-color: #e6f4ea;            /* Verde claro */
-      border: 2px solid #006341;
-      border-radius: 8px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #006341;
-      width: 90%;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-    }
-
-    /* Área de resultados del escaneo */
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      max-height: 900px;                    /* Altura extendida */
-      overflow-x: auto;                     /* Scroll horizontal si hay muchas columnas */
-      overflow-y: auto;                     /* Scroll vertical si hay muchos datos */
-      padding: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      text-align: left;
-      width: 95%;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      white-space: nowrap;                 /* Mantiene los datos en una sola línea */
-    }
-
-    /* Cada campo de información escaneada */
-    .campo {
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .campo strong {
-      color: #006341;
-      font-size: 18px;
-      min-width: 180px;
-    }
-
-    /* Pie de página institucional */
-    footer {
-      margin-top: 40px;
-      font-size: 12px;
-      color: #666;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta de Bienes</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
 
-  <!-- Encabezado institucional -->
-  <header>
-    <img src="https://lh3.googleusercontent.com/d/19w-yxgHtMzgLlQABl4n6k8Q_ua2Yqp2R=s220" alt="Logo institucional">
-    <h2>Consulta de Inventario</h2>
-  </header>
-
-  <hr>
-
-  <!-- Botones de acción para escanear y limpiar -->
-  <div>
-    <button onclick="iniciarEscaneo()">Nuevo escaneo</button>
-    <button onclick="limpiarPantalla()">Limpiar pantalla</button>
+  <!-- PRIMERA FILA: Búsqueda -->
+  <div class="fila-busqueda">
+    <input type="text" id="idEmpInput" placeholder="ID EMP" />
+    <button onclick="buscarEmpleado()">Buscar</button>
+    <button onclick="limpiarCampos()">Limpiar</button>
   </div>
 
-  <!-- Área del lector QR -->
-  <div id="reader"></div>
+  <!-- SEGUNDA FILA: Espacio en blanco -->
+  <div style="height: 10px;"></div>
 
-  <!-- Recuadro para mostrar el folio escaneado -->
-  <div id="folioBox"></div>
+  <!-- TERCERA FILA: Logo y texto institucional -->
+  <div class="fila-institucional">
+    <div class="logo-container">
+      <img src="logo-cdmx.png" alt="Logo Institucional" class="logo" />
+    </div>
+    <div class="texto-institucional">
+      <p>
+        <strong>SECRETARÍA DE SALUD DE LA CIUDAD DE MÉXICO</strong><br>
+        DIRECCIÓN GENERAL DE ADMINISTRACIÓN Y FINANZAS<br>
+        DIRECCIÓN DE RECURSOS MATERIALES, ABASTECIMIENTOS Y SERVICIOS<br>
+        SUBDIRECCIÓN DE BIENES MUEBLES E INVENTARIOS<br>
+        JEFATURA DE LA UNIDAD DEPARTAMENTAL DE CONTROL DE BIENES
+      </p>
+    </div>
+  </div>
 
-  <!-- Área para mostrar los resultados del activo -->
-  <div id="result"></div>
+  <!-- CUARTA FILA: Encabezado institucional -->
+  <div class="fila-encabezado">
+    <div class="encabezado-izquierda">RESGUARDO DE BIENES INVENTARIABLES</div>
+    <div class="encabezado-derecha">EJERCICIO FISCAL 2025</div>
+  </div>
 
-  <!-- Pie de página institucional -->
-  <footer>
-    Inventario de Activo Fijo — Subdirección de Control de Personal - Jud. de Control de Personal.
-  </footer>
+  <!-- QUINTA FILA: fila en blanco -->
+  <div style="height: 5px;"></div>
 
-  <!-- Script funcional para escaneo y consulta -->
-  <script>
-    let html5QrCode;
+  <!-- SEXTA FILA: Nombre, ID EMP, RFC -->
+<div class="fila-grid">
+  <!-- Etiqueta compacta: 1 columna -->
+  <div class="col-2 col-span-1 etiqueta-gris">NOMBRE DEL<br>RESGUARDANTE:</div>
+  <!-- Respuesta amplia: 3 columnas -->
+  <div class="col-3 col-span-3 campo-dato" id="nombreResguardante"></div>
 
-    // Inicia el escaneo de QR
-    function iniciarEscaneo() {
-      document.getElementById("reader").style.display = "block";
-      html5QrCode = new Html5Qrcode("reader");
+  <div class="col-6 col-span-1 etiqueta-gris">NÚMERO DE<br>EMPLEADO:</div>
+  <div class="col-7 col-span-2 campo-dato" id="numeroEmpleado"></div>
 
-      html5QrCode.start(
-        { facingMode: "environment" },       // Usa cámara trasera
-        { fps: 10, qrbox: 400 },             // Configuración de escaneo
-        onScanSuccess
-      ).catch(err => {
-        document.getElementById("result").innerText = "Error al iniciar cámara: " + err;
-      });
-    }
+  <div class="col-9 col-span-1 etiqueta-gris">RFC CON<br>HOMOCLAVE:</div>
+  <div class="col-10 col-span-1 campo-dato" id="rfcEmpleado"></div>
+</div>
 
-    // Se ejecuta cuando el escaneo es exitoso
-    function onScanSuccess(decodedText) {
-      html5QrCode.stop();                    // Detiene el escaneo
-      document.getElementById("reader").style.display = "none";
+<!-- SÉPTIMA FILA: fila en blanco -->
+<div style="height: 2px;"></div>
 
-      // Muestra el folio escaneado en su propio recuadro
-      document.getElementById("folioBox").innerHTML = `<p>Folio escaneado: ${decodedText}</p>`;
+<!-- OCTAVA FILA: Puesto y Régimen -->
+<div class="fila-grid">
+  <div class="col-2 col-span-1 etiqueta-gris">PUESTO:</div>
+  <div class="col-3 col-span-3 campo-dato" id="puestoEmpleado"></div>
 
-      // Consulta los datos del activo
-      consultarActivo(decodedText);
-    }
+  <div class="col-6 col-span-1 etiqueta-gris">RÉGIMEN DE CONTRATACIÓN:</div>
+  <div class="col-7 col-span-3 campo-dato" id="regimenContratacion"></div>
+</div>
 
-    // Consulta los datos del activo en App Script
-    async function consultarActivo(folio) {
-      const response = await fetch(`https://script.google.com/macros/s/AKfycbzkpes09nd7j8kHKDXNF51Dm5atTUEl5za2vXZW7s3TOE96h1eajUzlXGAHiycMWLDw/exec?folio=${folio}`);
-      const data = await response.json();
+<!-- NOVENA FILA: fila en blanco -->
+<div style="height: 2px;"></div>
 
-      if (data.error) {
-        document.getElementById("result").innerHTML = `<p style="color:red;">${data.error}</p>`;
-      } else {
-        let html = "";
-        for (const [clave, valor] of Object.entries(data)) {
-          html += `<div class="campo"><strong>${clave}:</strong> ${valor}</div>`;
-        }
-        document.getElementById("result").innerHTML = html;
-      }
-    }
+<!-- DÉCIMA FILA: Área -->
+<div class="fila-grid">
+  <div class="col-2 col-span-1 etiqueta-gris">ÁREA:</div>
+  <div class="col-3 col-span-5 campo-dato" id="areaAdscripcion"></div>
+</div>
 
-    // Limpia la pantalla y oculta el lector
-    function limpiarPantalla() {
-      document.getElementById("result").innerHTML = "";
-      document.getElementById("folioBox").innerHTML = "";
-      document.getElementById("reader").style.display = "none";
-    }
-  </script>
+<!-- DÉCIMO PRIMERA FILA: fila en blanco -->
+<div style="height: 2px;"></div>
+
+<!-- DÉCIMO SEGUNDA FILA: Unidad de adscripción -->
+<div class="fila-grid">
+  <div class="col-2 col-span-1 etiqueta-gris">UNIDAD DE ADSCRIPCIÓN:</div>
+  <div class="col-3 col-span-5 campo-dato" id="unidadAdscripcion"></div>
+</div>
+
+<!-- DÉCIMO TERCERA FILA: fila en blanco -->
+<div style="height: 2px;"></div>
+
+<!-- DÉCIMO CUARTA FILA: Texto legal sin recuadro -->
+<div class="fila-grid">
+  <div class="col-2 col-span-9 texto-legal-sin-recuadro">
+    LOS BIENES DE ESTA RELACIÓN SON DE MI RESPONSABILIDAD, POR LO QUE CUALQUIER TIPO DE MOVIMIENTO (CAMBIO DE USUARIO, ROBO, DESTRUCCIÓN ACCIDENTADA, BAJA, ETC.) SE INFORMARÁ POR OFICIO A LA JEFATURA DE UNIDAD DEPARTAMENTAL DE CONTROL DE BIENES
+  </div>
+</div>
+
+<!-- DÉCIMO QUINTA FILA: fila en blanco -->
+<div style="height: 2px;"></div>
+
+<!-- ENCABEZADOS DE LA TABLA DE BIENES INVENTARIABLES -->
+<div class="encabezado-tabla">
+  <div class="celda-encabezado">CON.</div>
+  <div class="celda-encabezado">CLAVE CAMB.</div>
+  <div class="celda-encabezado">DESCRIPCIÓN</div>
+  <div class="celda-encabezado">MARCA</div>
+  <div class="celda-encabezado">MODELO</div>
+  <div class="celda-encabezado">SERIE</div>
+  <div class="celda-encabezado">PLACAS</div>
+  <div class="celda-encabezado">MOTOR</div>
+  <div class="celda-encabezado">COSTO</div>
+  <div class="celda-encabezado">NÚMERO DE INVENTARIO</div>
+  <div class="celda-encabezado">OBSERVACIONES</div>
+</div>
+
+<!-- FILAS DE BIENES INVENTARIABLES -->
+<div id="tablaBienes"></div>
+
 </body>
 </html>
