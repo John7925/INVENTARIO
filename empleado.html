@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Empleado</title>
+
+  <!-- Vincula la hoja de estilos para aplicar diseño institucional -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Importa las fuentes Roboto y Cabin desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cabin&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Encabezado institucional con título oficial -->
+  <div class="encabezado">
+    <h2>RESGUARDO DE BIENES INVENTARIABLES — EJERCICIO 2025</h2>
+  </div>
+
+  <!-- Formulario de entrada para consultar datos del empleado -->
+  <div class="formulario">
+    <label for="numeroEmpleado">Número de empleado:</label>
+    <input type="text" id="numeroEmpleado">
+    <button id="consultarBtn">Consultar</button>
+  </div>
+
+  <!-- Tabla que muestra los datos del empleado consultado -->
+  <table id="datosEmpleado" style="display:none;">
+    <tr>
+      <td>NOMBRE DEL RESGUARDANTE:</td><td colspan="2" id="nombre"></td>
+      <td>NÚMERO DE EMPLEADO O FOLIO:</td><td id="folio"></td>
+      <td>R.F.C. CON HOMOCLAVE:</td><td colspan="3" id="rfc"></td>
+    </tr>
+    <tr>
+      <td>DESCRIPCIÓN DE PUESTO:</td><td colspan="2" id="puesto"></td>
+      <td>RÉGIMEN DE CONTRATACIÓN:</td><td colspan="2" id="contrato"></td>
+    </tr>
+    <tr>
+      <td>ÁREA:</td><td colspan="4" id="area"></td>
+    </tr>
+    <tr>
+      <td>UNIDAD DE ADSCRIPCIÓN:</td><td colspan="4" id="unidad"></td>
+    </tr>
+  </table>
+
+  <!-- Conecta el archivo JavaScript que realiza la consulta a la API -->
+  <script src="app.js"></script>
+</body>
+</html>
